@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,15 @@ public class Jumping : MonoBehaviour
 
     private Rigidbody _playerRigidbody;
 
+    public float OutOfBounds = -10f; 
     public float JumpForce = 10f;
     public float GravityModifier = 1f;
     public bool IsOnGround = true;
     public bool GameOver = false;
 
+   private Vector3 _stratingPosition;
 
+    private Vector3 _startingPosition;
     private Rigidbody _playerRb;
     
 
@@ -56,5 +60,13 @@ public class Jumping : MonoBehaviour
             IsOnGround = true;
         }
      
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Checkpoint"))
+        {
+            _startingPosition = other.gameObject.transform.position;
+        }
     }
 }

@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Ground
   - Checkpoint
+  - Deadzone
+  - Collactable
+  - Endpoint
+  - Collectible
   layers:
   - Default
   - TransparentFX

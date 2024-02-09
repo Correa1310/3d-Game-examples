@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RollABall : MonoBehaviour
 {
- 
+    public TextMeshProUGUI scoreText;
+    public int score = 0;
    public float Speed = 10f;
     public float JumpForce = 10f;
     public float GravityModifier = 1f;
@@ -12,6 +14,7 @@ public class RollABall : MonoBehaviour
     public bool IsOnGround = true;
     private float _horizontalInput;
     private float _forwardInput;
+    private bool _isAtCheckpoint = false; 
     private Vector3 _startingPosition;
     private Rigidbody _playerRigidbody;
      
@@ -23,6 +26,7 @@ public class RollABall : MonoBehaviour
         _playerRigidbody = GetComponent<Rigidbody>();
         Physics.gravity *= GravityModifier;
         _startingPosition = transform.position;
+        scoreText.text ="Score: " + score.ToString();
     }
 
     // Update is called once per frame
@@ -79,7 +83,13 @@ public class RollABall : MonoBehaviour
         {
           transform.position = _startingPosition;
         }
-      
+
+        if (other.gameObject.CompareTag( "Collectable"))
+        {
+            score++;
+            scoreText.text ="Score: " + score.ToString();
+           Destroy(other.gameObject);
+        }
     }
 
 }

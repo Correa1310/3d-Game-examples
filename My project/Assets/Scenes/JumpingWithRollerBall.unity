@@ -1156,6 +1156,7 @@ GameObject:
   - component: {fileID: 1047683659}
   - component: {fileID: 1047683658}
   - component: {fileID: 1047683657}
+  - component: {fileID: 1047683661}
   m_Layer: 0
   m_Name: collectable (3)
   m_TagString: Collectible
@@ -1251,6 +1252,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1047683661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047683656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc60b25abcee54c87b7874156fc734dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 1
 --- !u!1 &1227325462
 GameObject:
   m_ObjectHideFlags: 0

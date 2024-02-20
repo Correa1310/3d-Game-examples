@@ -4,40 +4,83 @@ using UnityEngine;
 
 public class Movement2 : MonoBehaviour
 {
- 
-   public float turnSpeed = 20f;
-
-   public float moveSpeed = 1f;
-
-   public bool IsOnGround = true;
-   
-    Vector3 m_Movement;
-    Rigidbody m_Rigidbody;
-    Quaternion m_Rotation = Quaternion.identity;
+   public int score = 0;
+    public float Speed = 10f;
+    public float JumpForce = 10f;
+    public float GravityModifier = 1f;
+    public float OutOfBounds = -10f;
+    public bool IsOnGround = true;
+    private float _horizontalInput;
+    private float _forwardInput;
+    private bool _isAtCheckpoint = false;
+    private Vector3 _startingPosition;
+    private Vector3 _checkpointPosition;
+    private Rigidbody _playerRigidbody;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();
+        _playerRigidbody = GetComponent<Rigidbody>();
+        Physics.gravity *= GravityModifier;
+        _startingPosition = transform.position;
+
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        _horizontalInput = Input.GetAxis("Horizontal");
+        _forwardInput = Input.GetAxis("Vertical");
 
-        m_Movement.Set(horizontal, 0f, vertical);
-        m_Movement.Normalize();
+        if(Input.GetKeyDown(KeyCode.Space) && IsOnGround)
+        {
+            _playerRigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+            IsOnGround = false;
+        }
 
-        bool hasHorizontalInput = !Mathf.Approximately (horizontal, 0f);
-        bool hasVerticalInput = !Mathf.Approximately (vertical, 0f);
-        bool isWalking = hasHorizontalInput || hasVerticalInput;
-        Vector3 desiredForward = Vector3.RotateTowards (transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
-        m_Rotation = Quaternion.LookRotation (desiredForward);
-           m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.deltaTime);
-        m_Rigidbody.MoveRotation (m_Rotation);
+        if(transform.position.y < OutOfBounds)
+        {
+            if(_isAtCheckpoint)
+            {
+                transform.position = _checkpointPosition;
+            }
+            else
+            {
+                transform.position = _startingPosition;
+            }
+        }
     }
 
-    
+    void FixedUpdate()
+    {
+        Vector3 movement = new Vector3(_horizontalInput, 0.0f, _forwardInput);
+
+        _playerRigidbody.AddForce(movement * Speed);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            IsOnGround = true;
+        }
+
+       
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Checkpoint"))
+        {
+            _isAtCheckpoint = true;
+            _checkpointPosition = other.gameObject.transform.position;
+        }
+
+        if(other.gameObject.CompareTag("Collectible"))
+        {
+            score++;
+         
+            Destroy(other.gameObject);
+        }
+    }
+
 }

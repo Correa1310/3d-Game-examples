@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Movement2 : MonoBehaviour
@@ -16,6 +17,7 @@ public class Movement2 : MonoBehaviour
     private Vector3 _startingPosition;
     private Vector3 _checkpointPosition;
     private Rigidbody _playerRigidbody;
+    public bool IsPlayerOnGround; 
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +58,9 @@ public class Movement2 : MonoBehaviour
         Vector3 movement = new Vector3(_horizontalInput, 0.0f, _forwardInput);
 
         _playerRigidbody.AddForce(movement * Speed);
+
+         
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -81,6 +86,11 @@ public class Movement2 : MonoBehaviour
          
             Destroy(other.gameObject);
         }
+
+       
+
+    
+   
     }
 
 }

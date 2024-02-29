@@ -22,7 +22,7 @@ public class PlayerAnimation : MonoBehaviour
 
         if(Mathf.Abs(horizontal) > 0 || Mathf.Abs(vertical) > 0)
         {
-            _playerAnimator.SetBool("isWalking", true);
+            _playerAnimator.SetBool("IsWalking", true);
         }
         else
         {
@@ -31,11 +31,11 @@ public class PlayerAnimation : MonoBehaviour
 
         if(_playerMovement.IsPlayerOnGround())
         {
-         _playerAnimator.SetBool("IsOnGround", true);
+            _playerAnimator.SetBool("IsOnGround", true);
         }
         else
         {
-             _playerAnimator.SetBool("IsOnGround", true);
+            _playerAnimator.SetBool("IsOnGround", false);
         }
     }
 }

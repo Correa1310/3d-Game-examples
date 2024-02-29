@@ -8,6 +8,14 @@ public class Movement2 : MonoBehaviour
    public float turnSpeed = 20f;
     public float moveSpeed = 1f;
     public float jumpForce = 3f;
+
+       private Vector3 _startingPosition;
+
+    private bool _isAtCheckpoint = false;
+
+    private Vector3 _checkpointPosition;
+
+     public float OutOfBounds = -10f;
     public bool IsOnGround = true;
     Vector3 m_Movement;
     Rigidbody m_Rigidbody;
@@ -25,6 +33,18 @@ public class Movement2 : MonoBehaviour
         {
             m_Rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             IsOnGround = false;
+        }
+
+        if(transform.position.y < OutOfBounds)
+        {
+            if(_isAtCheckpoint)
+            {
+                transform.position = _checkpointPosition;
+            }
+            else
+            {
+                transform.position = _startingPosition;
+            }
         }
     }
 
@@ -59,5 +79,25 @@ public class Movement2 : MonoBehaviour
     public bool IsPlayerOnGround()
     {
         return IsOnGround;
+    }
+
+     void OnTriggerEnter(Collider other)
+    {
+
+         if(other.gameObject.CompareTag("Checkpoint"))
+        {
+            _isAtCheckpoint = true;
+            _checkpointPosition = other.gameObject.transform.position;
+        }
+         if(other.gameObject.CompareTag("Endpoint"))
+        {
+            _isAtCheckpoint = false;
+            transform.position = _startingPosition;
+        }
+     
+        if(other.gameObject.CompareTag("Collectible"))
+        {
+            Destroy(other.gameObject);
+        }
     }
 }

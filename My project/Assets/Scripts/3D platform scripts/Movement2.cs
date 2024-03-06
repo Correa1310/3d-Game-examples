@@ -98,6 +98,7 @@ public class Movement2 : MonoBehaviour
         if(other.gameObject.CompareTag("Collectible"))
         {
             Destroy(other.gameObject);
+       
         }
     }
 }
